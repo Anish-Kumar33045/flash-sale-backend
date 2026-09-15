@@ -1,19 +1,12 @@
-package com.example.flashsale.repository;
+package com.anish.flash_sale_backend.repository;
 
-import com.example.flashsale.entity.Product;
+import com.anish.flash_sale_backend.entity.Product;
 import jakarta.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
-/**
- * Dynamic catalog filters built with the Criteria API.
- *
- * Chosen over a ":param is null or ..." JPQL block because optional
- * parameters render ambiguous untyped NULLs on PostgreSQL, while a
- * Specification only adds predicates that are actually present -
- * one clean SQL statement per filter combination, index-friendly.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public final class ProductSpecifications {
 
     private ProductSpecifications() {

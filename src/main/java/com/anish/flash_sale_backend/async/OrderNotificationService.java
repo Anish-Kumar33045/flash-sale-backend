@@ -1,21 +1,11 @@
-package com.example.flashsale.async;
+package com.anish.flash_sale_backend.async;
 
-import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-/**
- * Non-critical post-order work, executed on the "orderEventExecutor" pool.
- *
- * SYNCHRONOUS (inside the buyer's transaction): validate cart, lock rows,
- * decrement inventory, persist order + items. If any of this fails the
- * buyer must see the error immediately and nothing may be persisted.
- *
- * ASYNCHRONOUS (after commit): confirmation notification / event logging.
- * The response is already on its way; a notification failure must never
- * fail an order, which is why exceptions are swallowed and logged here.
- */
+import java.math.BigDecimal;
+
 @Slf4j
 @Service
 public class OrderNotificationService {

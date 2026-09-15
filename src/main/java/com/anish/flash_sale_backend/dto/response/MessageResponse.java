@@ -1,5 +1,4 @@
-package com.example.flashsale.dto.response;
+package com.anish.flash_sale_backend.dto.response;
 
-/** Simple acknowledgement body for mutations without a meaningful payload. */
 public record MessageResponse(String message) {
 }

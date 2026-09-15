@@ -1,16 +1,11 @@
-package com.example.flashsale.dto.request;
+package com.anish.flash_sale_backend.dto.request;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+
 import java.math.BigDecimal;
 
-/**
- * Used for both create (POST) and full update (PUT) of a product.
- */
+//Used for both create (POST) and full update (PUT) of a product.
+
 public record ProductRequest(
         @NotBlank(message = "Product name is required")
         @Size(max = 200, message = "Product name must be at most 200 characters")

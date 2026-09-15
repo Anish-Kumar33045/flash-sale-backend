@@ -1,7 +1,8 @@
-package com.example.flashsale.dto.request;
+package com.anish.flash_sale_backend.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 
 public record OrderRequest(

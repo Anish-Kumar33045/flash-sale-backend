@@ -1,4 +1,4 @@
-package com.example.flashsale.dto.response;
+package com.anish.flash_sale_backend.dto.response;
 
 import java.math.BigDecimal;
 

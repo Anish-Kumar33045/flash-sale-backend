@@ -1,10 +1,9 @@
-package com.example.flashsale.dto.response;
+package com.anish.flash_sale_backend.dto.response;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-/** Full order detail including line items at historical prices. */
 public record OrderResponse(
         Long id,
         String status,

@@ -1,20 +1,17 @@
-package com.example.flashsale.mapper;
+package com.anish.flash_sale_backend.mapper;
 
-import com.example.flashsale.dto.response.OrderItemResponse;
-import com.example.flashsale.dto.response.OrderResponse;
-import com.example.flashsale.dto.response.OrderSummaryResponse;
-import com.example.flashsale.entity.Order;
-import com.example.flashsale.entity.OrderItem;
-import java.util.List;
+import com.anish.flash_sale_backend.dto.response.OrderItemResponse;
+import com.anish.flash_sale_backend.dto.response.OrderResponse;
+import com.anish.flash_sale_backend.dto.response.OrderSummaryResponse;
+import com.anish.flash_sale_backend.entity.Order;
+import com.anish.flash_sale_backend.entity.OrderItem;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class OrderMapper {
 
-    /**
-     * Full detail view including line items. Touches lazy collections -
-     * only call inside an open transaction (see OrderService).
-     */
     public OrderResponse toResponse(Order order) {
         List<OrderItemResponse> items = order.getItems().stream()
                 .map(this::toItemResponse)
@@ -27,7 +24,6 @@ public class OrderMapper {
                 order.getCreatedAt());
     }
 
-    /** List view without touching lazy item collections (N+1 avoidance). */
     public OrderSummaryResponse toSummary(Order order) {
         return new OrderSummaryResponse(
                 order.getId(),

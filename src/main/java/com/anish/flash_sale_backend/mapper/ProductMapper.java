@@ -1,10 +1,9 @@
-package com.example.flashsale.mapper;
+package com.anish.flash_sale_backend.mapper;
 
-import com.example.flashsale.dto.response.ProductResponse;
-import com.example.flashsale.entity.Product;
+import com.anish.flash_sale_backend.dto.response.ProductResponse;
+import com.anish.flash_sale_backend.entity.Product;
 import org.springframework.stereotype.Component;
 
-/** Manual mapping - explicit, debuggable and dependency-free for 2 DTOs. */
 @Component
 public class ProductMapper {
 

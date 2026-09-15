@@ -1,37 +1,24 @@
-package com.example.flashsale.service;
+package com.anish.flash_sale_backend.service;
 
-import com.example.flashsale.config.CacheConfig;
-import com.example.flashsale.dto.request.InventoryRequest;
-import com.example.flashsale.dto.request.ProductRequest;
-import com.example.flashsale.dto.response.InventoryItemResponse;
-import com.example.flashsale.dto.response.MessageResponse;
-import com.example.flashsale.dto.response.PageResponse;
-import com.example.flashsale.dto.response.ProductResponse;
-import com.example.flashsale.entity.Product;
-import com.example.flashsale.exception.ResourceNotFoundException;
-import com.example.flashsale.mapper.ProductMapper;
-import com.example.flashsale.repository.ProductRepository;
-import com.example.flashsale.repository.ProductSpecifications;
+import com.anish.flash_sale_backend.dto.request.InventoryRequest;
+import com.anish.flash_sale_backend.dto.request.ProductRequest;
+import com.anish.flash_sale_backend.dto.response.InventoryItemResponse;
+import com.anish.flash_sale_backend.dto.response.MessageResponse;
+import com.anish.flash_sale_backend.dto.response.PageResponse;
+import com.anish.flash_sale_backend.dto.response.ProductResponse;
+import com.anish.flash_sale_backend.entity.Product;
+import com.anish.flash_sale_backend.exception.ResourceNotFoundException;
+import com.anish.flash_sale_backend.mapper.ProductMapper;
+import com.anish.flash_sale_backend.repository.ProductRepository;
+import com.anish.flash_sale_backend.repository.ProductSpecifications;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-/**
- * Catalog management.
- *
- * Caching strategy (cache-aside):
- *  - getProductById  -> @Cacheable: Redis first, DB only on a miss
- *  - list/search     -> NOT cached: filters+sorting are too dynamic and the
- *                       DB answers them quickly via indexes
- *  - every admin mutation -> @CacheEvict so stale data never outlives the
- *                       request that changed it (TTL 10m is only a backstop)
- */
 
 @Slf4j
 @Service
@@ -49,11 +36,6 @@ public class ProductService {
         return PageResponse.from(page, productMapper::toResponse);
     }
 
-    /**
-     * Cache hit: returned from Redis without touching PostgreSQL.
-     * Cache miss: load from PostgreSQL, then store in Redis for next time.
-     */
-    @Cacheable(cacheNames = CacheConfig.PRODUCT_CACHE, key = "#id")
     @Transactional(readOnly = true)
     public ProductResponse getProduct(Long id) {
         Product product = findProduct(id);
@@ -73,13 +55,6 @@ public class ProductService {
         return productMapper.toResponse(saved);
     }
 
-    /**
-     * Plain read-modify-write: no explicit lock taken. If two admins edit
-     * concurrently, the SECOND commit fails with ObjectOptimisticLockingFailureException
-     * (HTTP 409) because Product.version moved underneath it. That is
-     * OPTIMISTIC locking doing its job for low-contention admin work.
-     */
-    @CacheEvict(cacheNames = CacheConfig.PRODUCT_CACHE, key = "#id")
     @Transactional
     public ProductResponse updateProduct(Long id, ProductRequest request) {
         Product product = findProduct(id);
@@ -91,8 +66,6 @@ public class ProductService {
         return productMapper.toResponse(productRepository.save(product));
     }
 
-    /** Inventory adjustments are rare and admin-driven -> optimistic locking fits. */
-    @CacheEvict(cacheNames = CacheConfig.PRODUCT_CACHE, key = "#id")
     @Transactional
     public ProductResponse updateInventory(Long id, InventoryRequest request) {
         Product product = findProduct(id);
@@ -101,8 +74,6 @@ public class ProductService {
         return productMapper.toResponse(productRepository.save(product));
     }
 
-    /** Soft delete: keep historical orders intact, hide from the catalog. */
-    @CacheEvict(cacheNames = CacheConfig.PRODUCT_CACHE, key = "#id")
     @Transactional
     public MessageResponse deactivateProduct(Long id) {
         Product product = findProduct(id);

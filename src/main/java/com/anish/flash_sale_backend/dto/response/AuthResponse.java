@@ -1,9 +1,5 @@
-package com.example.flashsale.dto.response;
+package com.anish.flash_sale_backend.dto.response;
 
-/**
- * Returned by register and login. Carries everything a client needs to
- * start calling authenticated endpoints.
- */
 public record AuthResponse(
         String token,
         String tokenType,

@@ -1,4 +1,4 @@
-package com.example.flashsale.dto.request;
+package com.anish.flash_sale_backend.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

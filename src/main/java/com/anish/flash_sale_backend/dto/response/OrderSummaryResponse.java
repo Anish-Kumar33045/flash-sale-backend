@@ -1,13 +1,8 @@
-package com.example.flashsale.dto.response;
+package com.anish.flash_sale_backend.dto.response;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-/**
- * Slim projection used when LISTING orders. Deliberately excludes line
- * items so we never trigger lazy loading per row (the classic N+1 problem)
- * and never ship huge payloads for list pages.
- */
 public record OrderSummaryResponse(
         Long id,
         String status,
